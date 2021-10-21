@@ -1,11 +1,17 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+
+import os
 # Create your models here.
 
 
 def img_path(instance, file):
-    pass
+    
+    name, ext = os.path.splitext(file)
+    path = f'avatars/{instance.username}{ext}'
+    return path
+
 
 
 class CustomUserManager(BaseUserManager):
@@ -81,10 +87,14 @@ class ProfileModel(models.Model):
         on_delete=models.CASCADE
     )
     username = models.CharField(
-        max_length=16
+        max_length=16,
+        unique=True
     )
     biography = models.TextField()
     profile_picture = models.ImageField(
         upload_to=img_path,
-        default='/media/images/avatar.png'
+        default='/media/image/avatar.png'
     )
+
+    def __str__(self) -> str:
+        return self.username
