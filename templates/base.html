@@ -13,7 +13,7 @@
     <header>
             <nav class="navbar navbar-expand-lg navbar-light ">
               <div class="container-fluid">
-                <a class="navbar-brand text-white" href="#">Navbar</a>
+                <a class="navbar-brand text-white" href="#">Chat room</a>
               </div>
             </nav>
     </header>
@@ -29,5 +29,8 @@
     <div class="container-lg container-fluid">
         {% block content %}{% endblock %}
     </div>
+
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    {% block js %}{% endblock %}
 </body>
 </html>

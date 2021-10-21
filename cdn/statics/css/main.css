@@ -1,3 +1,27 @@
 .navbar-light {
   background-color: #00cfb4 !important;
 }
+
+
+
+.message-input-container input, #btnSend {
+  border-radius: 360px !important;
+  font-size: 18px;
+  padding: 8px;
+}
+
+#btnSend {
+  border: solid 0.1px lightblue;
+  padding: 7px 9px;
+}
+
+.message-input-container {
+  width: 100%;
+  padding: 30px;
+  background-color: white;
+  margin: 0px;
+  border-top: solid 0.01px lightblue;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+}

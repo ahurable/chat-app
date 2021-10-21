@@ -99,4 +99,6 @@ class ProfileModel(models.Model):
     )
 
     def __str__(self):
-        return str(self.username)
+        if self.username is not None:
+            return str(self.username)
+        return "profile for user "+str(self.user.id)

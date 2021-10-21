@@ -9,7 +9,8 @@ from .views import index_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index_view, name='home_url'),
-    path('account/', include('account.urls', namespace='account'))
+    path('account/', include('account.urls', namespace='account')),
+    path('chat/', include('chat.urls', namespace='chat'))
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Direct Message {{ username }}{% endblock %}
+
+{% block content %}
+  <div class="my-5">
+    <div class="justify-content-center d-lg-flex">
+      <div class="col-lg-6 col-md-8 col-sm-12 col-12">
+        <div class="message-container" id="messageContainer">
+
+        </div>
+        <div class="col-6 message-input-container">
+          <input type="text" id="inputMsg" name="inputMsg" class="form-control w-75 d-inline-block" placeholder="Type something">
+          <button type="submit" id="btnSend" name="btnSend" class="btn" value="send">
+            <img src="{% static 'image/send.png' %}" width="20px" alt="">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js %}
+{{ username | json_script:"directChatName" }}
+<script>
+  document.querySelector('#inputMsg').focus();
+  var directChatName = JSON.parse(document.querySelector('#directChatName').textContent);
+  console.log(directChatName);
+  const chatSocket = new WebSocket(
+    "ws://"+
+    location.host+"/"+
+    "directchat/"+
+    directChatName+"/"
+  );
+
+  chatSocket.onmessage = function(e) {
+    data = JSON.parse(e.data);
+    document.querySelector('#messageContainer').innerHTML += "<p><span style=\"color: red\">"+data.email+": </span>"+data.message;
+  }
+
+
+  document.querySelector('#inputMsg').onkeyup = function(e) {
+    if (e.keyCode === 13) {
+      document.querySelector('#btnSend').click();
+    }
+  };
+  document.querySelector('#btnSend').onclick = (e) => {
+    chatSocket.send(JSON.stringify({
+      message: document.querySelector('#inputMsg').value
+    }));
+    document.querySelector('#inputMsg').value = "";
+  };
+</script>
+{% endblock %}
