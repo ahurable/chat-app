@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +6,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
 </head>
 <body>
-    
+    <header>
+            <nav class="navbar navbar-expand-lg navbar-light ">
+              <div class="container-fluid">
+                <a class="navbar-brand text-white" href="#">Navbar</a>
+              </div>
+            </nav>
+    </header>
+    {% if messages %}
+        {% for message in messages %}
+        <div class="container-lg container-md container-fluid my-5">
+            <div class="alert alert-{{message.extra_tags}}">
+                {{message.message}}
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+    <div class="container-lg container-fluid">
+        {% block content %}{% endblock %}
+    </div>
 </body>
 </html>

@@ -65,8 +65,8 @@ class CustomUser(AbstractBaseUser):
     REQUIRED_FIELDS = ('phone_number', )
     objects = CustomUserManager()
 
-    def __str__(self) -> str:
-        return self.email
+    def __str__(self):
+        return str(self.email)
 
     def has_perm(self, perm, obj=None):
         return True
@@ -88,7 +88,9 @@ class ProfileModel(models.Model):
     )
     username = models.CharField(
         max_length=16,
-        unique=True
+        unique=True,
+        blank=True,
+        null=True
     )
     biography = models.TextField()
     profile_picture = models.ImageField(
@@ -96,5 +98,5 @@ class ProfileModel(models.Model):
         default='/media/image/avatar.png'
     )
 
-    def __str__(self) -> str:
-        return self.username
+    def __str__(self):
+        return str(self.username)
