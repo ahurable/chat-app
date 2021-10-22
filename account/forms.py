@@ -5,6 +5,12 @@ from .models import CustomUser
 
 class LoginForm(forms.Form):
 
+  username = forms.CharField(
+    max_length=50,
+    min_length=8,
+    label="Username",
+    widget=forms.TextInput(attrs={'class':'form-control', 'name':'username', 'id':'username', 'placeholder': 'Enter your username'})
+  )
   email = forms.CharField(
     max_length=50,
     min_length=8,
@@ -20,7 +26,7 @@ class LoginForm(forms.Form):
 
 
 class RegisterForm(forms.ModelForm):
-
+  
   password = forms.CharField(
     max_length=12,
     min_length=5,
@@ -47,12 +53,13 @@ class RegisterForm(forms.ModelForm):
 
   class Meta:
     model = CustomUser
-    fields = ('email', 'phone_number')
+    fields = ('username', 'email', 'phone_number')
     widgets = {
+      'username': forms.TextInput(attrs={'class':'form-control', 'name':'username', 'id':'username', 'placeholder': 'Enter your username'}),
       'email': forms.EmailInput(attrs={'class':'form-control my-2', 'placeholder':'Enter your email address'}),
       'phone_number': forms.NumberInput(attrs={'class':'form-control my-2', 'placeholder':'Enter your phone number'})
     }
-
+  
   def clean(self):
     cd = super().clean()
     if cd['password'] and cd['password2'] and cd['password'] != cd['password2']:

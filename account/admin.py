@@ -9,5 +9,5 @@ admin.site.register(ProfileModel)
 @admin.register(CustomUser)
 class AdminCustomUser(admin.ModelAdmin):
 
-    list_display = ['email', 'phone_number', 'is_active', 'is_admin']
+    list_display = ['username', 'phone_number', 'email', 'is_admin']
     

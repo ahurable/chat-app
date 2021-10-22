@@ -54,6 +54,6 @@ class RegisterView(View):
       success(request, message="Your account created with successfully!", extra_tags='success')
       return redirect('account:login_url')
 
-    error(request, message="Fill all the field then click on submit button", extra_tags='danger')
+    error(request, message="Fill all the fields correctly then click on submit button", extra_tags='danger')
 
     return redirect('account:register_url')

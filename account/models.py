@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from django.db import models
+from djongo import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 import os
@@ -16,13 +16,13 @@ def img_path(instance, file):
 
 class CustomUserManager(BaseUserManager):
 
-    def create_user(self, email, phone_number, password=None):
+    def create_user(self,username, phone_number, password=None):
         
-        if not email: 
+        if not username: 
             raise ValueError('User email must be set!')
 
         user = self.model(
-            email = email,
+            username = username,
             phone_number = phone_number
         )
         user.set_password(password)
@@ -31,10 +31,10 @@ class CustomUserManager(BaseUserManager):
         return user
 
 
-    def create_superuser(self, email, phone_number, password=None):
+    def create_superuser(self, username, phone_number, password=None):
 
         user = self.create_user(
-            email=email,
+            username=username,
             phone_number=phone_number,
             password=password
         )
@@ -48,6 +48,12 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser):
 
+    username = models.CharField(
+        verbose_name="username",
+        max_length=50,
+        null=True,
+        unique=True
+    )
     email = models.EmailField(
         verbose_name="email",
         max_length=55,
@@ -61,12 +67,12 @@ class CustomUser(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ('phone_number', )
     objects = CustomUserManager()
 
     def __str__(self):
-        return str(self.email)
+        return str(self.username)
 
     def has_perm(self, perm, obj=None):
         return True
@@ -86,19 +92,11 @@ class ProfileModel(models.Model):
         related_name='profile_model',
         on_delete=models.CASCADE
     )
-    username = models.CharField(
-        max_length=16,
-        unique=True,
-        blank=True,
-        null=True
-    )
-    biography = models.TextField()
+    biography = models.TextField(blank=True)
     profile_picture = models.ImageField(
         upload_to=img_path,
         default='/media/image/avatar.png'
     )
 
     def __str__(self):
-        if self.username is not None:
-            return str(self.username)
-        return "profile for user "+str(self.user.id)
+        return f"{self.user.username}'s profile"

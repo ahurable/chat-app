@@ -82,6 +82,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'djongo',
+        # 'NAME': 'chat-app3',
+        # Signals with djongo doesn't work
     }
 }
 

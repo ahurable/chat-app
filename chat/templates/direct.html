@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block js %}
-{{ username | json_script:"directChatName" }}
+{{ chatroom | json_script:"directChatName" }}
 <script>
   document.querySelector('#inputMsg').focus();
   var directChatName = JSON.parse(document.querySelector('#directChatName').textContent);
@@ -36,7 +36,7 @@
 
   chatSocket.onmessage = function(e) {
     data = JSON.parse(e.data);
-    document.querySelector('#messageContainer').innerHTML += "<p><span style=\"color: red\">"+data.email+": </span>"+data.message;
+    document.querySelector('#messageContainer').innerHTML += "<p><span style=\"color: red\">"+data.username+": </span>"+data.message;
   }
 
 
